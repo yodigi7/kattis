@@ -6,19 +6,20 @@ short getNumTimes(const short sCh);
 short getNum(const short sCh);
 
 int main(){
-  char prev = '_', ch;
-  short num, numTimes, sCh, numStrings;
+  char ch;
+  short num, numTimes, sCh, numStrings, prev;
   string myStr;
   cin >> numStrings;
+  getline(cin, myStr);
   for(short j = 1; j <= numStrings; j++){
     cout << "Case #" << j << ": ";
-    prev = '_';
+    prev = 99;
     getline(cin, myStr);
     for(int k = 0; k < myStr.length(); k++){
       ch = myStr[k];
       sCh = ch;
       if(ch == ' '){
-        if(prev == '0')
+        if(prev == 0)
           cout << " 0";
         else
           cout << '0';
@@ -33,6 +34,7 @@ int main(){
         for(short i = 0; i < numTimes; i++){
           cout << num;
         }
+        prev = num;
       }
     }
     cout << endl;
@@ -43,11 +45,23 @@ int main(){
 short getNumTimes(const short sCh){
   short num = sCh % 3;
   num++;
+  if(sCh > 18)
+    num--;
+  if(sCh == 21 || sCh == 24)
+    num = 3;
+  if(sCh == 18 || sCh == 25)
+    num = 4;
   return num;
 }
 
 short getNum(const short sCh){
-  short num = sCh / 3;
-  num += 2;
-  return num;
+  short number = sCh / 3;
+  number += 2;
+  if(sCh == 18)
+    number = 7;
+  if(sCh == 21)
+    number = 8;
+  if(number == 10)
+    number = 9;
+  return number;
 }
