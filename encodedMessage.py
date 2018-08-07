@@ -1,5 +1,6 @@
 import math
 
+
 # TODO: Make it rotate the correct way so we don't have to rotate it three times
 def rot90(array: list) -> list:
     return list(zip(*array[::-1]))
