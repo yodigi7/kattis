@@ -1,30 +1,54 @@
-def get_input_data():
-    in_data = list(input())
-    return in_data
+from enum import Enum, auto
+from functools import partial
+
+class Position(Enum):
+    UP = auto()
+    DOWN = auto()
+class Toilet:
+    position: Position
+    def __init__(self, position):
+        self.position = position
+
+    def flip(self):
+        if self.position is Position.UP:
+            self.position = Position.DOWN
+        elif self.position is Position.DOWN:
+            self.position = Position.UP
 
 
-def calculate_seat_up_or_down(up_or_down, in_data):
-    seat_changes = 0
-    if (not(in_data[0] == in_data[1])) and up_or_down == in_data[1]:
-        seat_changes += 1
-    elif in_data[0] == in_data[1] and up_or_down == in_data[1]:
-        seat_changes -= 1
-    for index in range(1, len(in_data)):
-        if in_data[index] == up_or_down:
-            seat_changes += 2
-    return seat_changes
+mapper = {
+    "U": Position.UP,
+    "D": Position.DOWN,
+}
 
 
-def calculate_seat_as_is(in_data):
-    seat_changes = 0
-    for index in range(len(in_data)-1):
-        if not(in_data[index] == in_data[index+1]):
-            seat_changes += 1
-    return seat_changes
+
+def toilet_sim(ending_positions, positions):
+    toilet = Toilet(positions[0])
+    flips = 0
+    for position in positions[1:]:
+        if toilet.position is not position:
+            toilet.flip()
+            flips += 1
+        if toilet.position not in ending_positions:
+            toilet.flip()
+            flips += 1
+    return flips
 
 
-if __name__ == "__main__":
-    input_data = get_input_data()
-    print(calculate_seat_up_or_down('D', input_data))
-    print(calculate_seat_up_or_down('U', input_data))
-    print(calculate_seat_as_is(input_data))
+always_up = partial(toilet_sim, [Position.UP])
+always_down = partial(toilet_sim, [Position.DOWN])
+always_last = partial(toilet_sim, [Position.UP, Position.DOWN])
+
+
+def solve(positions):
+    print(always_up(positions))
+    print(always_down(positions))
+    print(always_last(positions))
+
+
+def main():
+    solve([mapper[i] for i in input()])
+
+
+main()
