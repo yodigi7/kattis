@@ -1,39 +1,24 @@
-class Problem:
-    def __init__(self, num_words):
-        self.num_words = num_words
-        self.word_list = self.get_words()
-
-    def get_words(self):
-        word_list = []
-        for _ in range(self.num_words):
-            word_list.append(input())
-        return word_list
-
-    def get_best_word(self):
-        best_score = 0
-        best_word = None
-        for word in self.word_list:
-            curr_score = self.score_word(word)
-            if curr_score > best_score:
-                best_score = curr_score
-                best_word = word
-        return best_word
-
-    @staticmethod
-    def score_word(word):
-        score = 0
-        vowels = ['a', 'e', 'i', 'o', 'u', 'y']
-        word_as_list = list(word)
-        for index in range(len(word_as_list)-1):
-            if word_as_list[index] == word_as_list[index+1] and word_as_list[index] in vowels:
-                score += 1
-        return score
+def word_score(word):
+    if len(word) <= 1:
+        return 0
+    score = 0
+    if word[0] == word[1] and word[0] in "aeiouy":
+        score += 1
+    return word_score(word[1:]) + score
 
 
-if __name__ == "__main__":
-    num_words = int(input())
-    while num_words:
-        problem = Problem(num_words)
-        print(problem.get_best_word())
-        print(problem.score_word(problem.get_best_word()))
+def solve(words):
+    return max(words, key=word_score)
+
+
+def main():
+    while True:
+        words = []
         num_words = int(input())
+        if num_words == 0: return
+        for _ in range(num_words):
+            words.append(input())
+        print(solve(words))
+
+
+main()
