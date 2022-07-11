@@ -4,6 +4,7 @@ from functools import wraps
 
 def cache(f):
     cache_dict = {}
+
     @wraps(f)
     def inner(*args):
         val = cache_dict.get(tuple(args))
@@ -12,6 +13,7 @@ def cache(f):
         val = f(*args)
         cache_dict[tuple(args)] = val
         return val
+
     return inner
 
 
@@ -33,7 +35,7 @@ def solve(combination):
 def main():
     for _ in range(int(input())):
         m = int(input())
-        concoctions = tuple(range(1, m+1))
+        concoctions = tuple(range(1, m + 1))
         solutions = []
         for i in range(m, 0, -1):
             for combination in combinations(concoctions, i):
@@ -45,4 +47,5 @@ def main():
         print(" ".join(str(x) for x in solutions[0]))
 
 
-main()
+if __name__ == "__main__":
+    main()

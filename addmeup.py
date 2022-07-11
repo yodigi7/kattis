@@ -1,4 +1,5 @@
 from itertools import combinations
+
 flip_dict = {
     "1": "1",
     "2": "2",
@@ -22,11 +23,21 @@ def solve(target, numbers):
     for combination in combinations(numbers, 2):
         if combination[0] + combination[1] == target:
             return "YES"
-        if flippable(combination[0]) and flip(combination[0]) + combination[1] == target:
+        if (
+            flippable(combination[0])
+            and flip(combination[0]) + combination[1] == target
+        ):
             return "YES"
-        if flippable(combination[1]) and flip(combination[1]) + combination[0] == target:
+        if (
+            flippable(combination[1])
+            and flip(combination[1]) + combination[0] == target
+        ):
             return "YES"
-        if flippable(combination[1]) and flippable(combination[0]) and flip(combination[1]) + flip(combination[0]) == target:
+        if (
+            flippable(combination[1])
+            and flippable(combination[0])
+            and flip(combination[1]) + flip(combination[0]) == target
+        ):
             return "YES"
     return "NO"
 

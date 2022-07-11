@@ -1,9 +1,6 @@
 from itertools import combinations_with_replacement
+from operator import add, mul, sub, floordiv
 
-add = lambda x, y: x+y
-sub = lambda x, y: x-y
-mult = lambda x, y: x*y
-div = lambda x, y: x//y
 text_mapping = {
     0: "+",
     1: "-",
@@ -13,16 +10,16 @@ text_mapping = {
 mapping = {
     0: add,
     1: sub,
-    2: mult,
-    3: div,
+    2: mul,
+    3: floordiv,
 }
 
 
 def partial_solve(nums, fns, mult_or_div=True):
     if mult_or_div:
-        while mult in fns or div in fns:
+        while mul in fns or floordiv in fns:
             for i, fn in enumerate(fns):
-                if fn is mult or fn is div:
+                if fn is mul or fn is floordiv:
                     nums[i] = fn(nums[i], nums[i+1])
                     del nums[i+1]
                     del fns[i]
